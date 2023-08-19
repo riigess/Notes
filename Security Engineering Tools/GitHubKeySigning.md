@@ -10,4 +10,5 @@ In order to do github's key signing, you will need a GPG key in order to do so.
 6. Use `gpg --list-secret-keys --keyid-format LONG` to get the key's ID to push to `git` in the next step here
 7. Use `git config --global user.signingkey <key_id>` to push the keyid to git to use when signing commits
 8. Make sure you `cat` mypubkey.asc and copy and paste that into github
-9. Give it a test and confirm everything works!
+9. Enable gpg signing in git using `git config --global commit.gpgsign true`
+10. Give it a test and confirm everything works using `git commit -S -m ""`. Making sure to use -S to sign the commit!
