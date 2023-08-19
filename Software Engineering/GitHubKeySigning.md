@@ -12,3 +12,14 @@ In order to do github's key signing, you will need a GPG key in order to do so.
 8. Make sure you `cat` mypubkey.asc and copy and paste that into github
 9. Enable gpg signing in git using `git config --global commit.gpgsign true`
 10. Give it a test and confirm everything works using `git commit -S -m ""`. Making sure to use -S to sign the commit!
+
+## Troubleshooting
+- Make sure that `git config --global user.gpgsign` is set to `true`
+
+- `git config --global user.signingkey` should be set to the gpg sec key that prints from `gpg --list-secret-keys --keyid-format=long`
+
+- If issues persist, try `killall gpg-agent && export GPG_TTY=$(tty) && gpg-agent --daemon`
+
+- You may need to install pinentry on macOS using Homebrew and then add it to `~/.gnupg/gpg-agent.conf` (remember to use `which pinentry-mac` before adding the resource to gpg-agent.conf)
+
+- Sometimes it's helpful to also add a `[gpg]` section with `program = [gpg_executable_location]` - after running `which gpg` - to `~/.gitconfig` (sometimes before the `[commit]` section)
