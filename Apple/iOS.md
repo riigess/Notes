@@ -5,3 +5,9 @@
 ## IPSW Files
 - An IPSW file is just a compressed ZIP folder with a different extension
 - Three DMG files make up the IPSW file structure, with an Info.plist file to provide a way to confirm upgrades/downgrades
+
+## Some Links/References
+- [UAFAssets](https://github.com/riigess/UAFAssets-Updater)
+- [The Apple Wiki (TAW) on MobileAsset](https://theapplewiki.com/wiki/MobileAsset)
+- [iBoot on TAW](https://theapplewiki.com/wiki/IBoot)
+- [AirPlay](./AirPlay-mDNS.md)
