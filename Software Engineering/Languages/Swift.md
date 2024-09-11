@@ -48,7 +48,7 @@ import CoreData
 
 struct PersistenceController {
     static let shared = PersistenceController()
-    
+
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
@@ -92,8 +92,8 @@ struct PersistenceController {
 struct ContentView: View {
     @State private var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(
-            latitude: 51.507222, 
-            longitude: -0.1275), 
+            latitude: 51.507222,
+            longitude: -0.1275),
         span: MKCoordinateSpan(
             latitudeDelta: 0.5,
             longitudeDelta: 0.5))
@@ -309,6 +309,61 @@ struct ContentView: View {
                 }
             }
             task.resume()
+        }
+    }
+}
+```
+
+## SwiftUI Design reference (Child views cannot be the ones to update a parent view's array)
+### Issue Solution (below)
+In this example, you cannot use the DeleteButton (View) to update the numbers variable passed in from DemoCustomDelete. I discovered this while trying to develop a custom row view that you can swipe to remove for [Fetchr](https://github.com/riigess/Fetchr).
+```swift
+struct DemoCustomDelete: View {
+    @State private var numbers = Array(0...9) //Inclusive [0, ..., 9]
+
+    var body: some View {
+        NavigationView {
+            VStack(spacing: 10) {
+            ForEach(numbers, id: \.self) { number in
+                VStack {
+                    Text("\(number)")
+                }
+                .frame(width: 50, height: 50)
+                .background(Color.red)
+                .overlay(DeleteButton(number: number, number: $numbers, onDelete: removeRows), alignment: .topTrailing)
+            }
+            .onDelete(perform: removeRows)
+        }
+        .navigationTitle("Trying")
+        .navigationBarItems(trailing:EditButton())
+    }
+
+    func removeRows(at offsets: IndexSet) {
+        withAnimation {
+            numbers.remove(atOffsets:offsets)
+        }
+    }
+}
+
+struct DeleteButton:View {
+    @Environment(\.editMode) var editMode
+
+    let number:Int
+    @Binding var numbers:[Int]
+    let onDelete:(IndexSet) -> ()
+
+    var body: some View {
+        VStack {
+            if self.editMode?.wrappedValue == .active {
+                Button(action: {
+                    if let index = numbers.firstIndex(of: number) {
+                        self.onDelete(IndexSet(integer: index))
+                    }
+                }) {
+                    Image(systemName: "minus.circle")
+                }
+                .offset(x: 10, y: -10)
+            }
         }
     }
 }
