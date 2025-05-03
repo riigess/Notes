@@ -31,7 +31,17 @@ int main() {
 
 ### vector.erase(const_sequentialindex)
 What does this function do?
- Well, pre-C++2011, this function has a macro mapping that allows a new function to be present in newer (than 2011) versions of C++. [From libstdc++/stl_algobase.h:L475-L492](https://gcc.gnu.org/onlinedocs/gcc-4.6.3/libstdc++/api/a01046_source.html#l00475)
+
+Well, pre-C++2011, this function performs a memcopy of a vector. std::copy copies elements from one range to another. Ex. if you have [1,2,3,4,5] and want to remove index 3 (number 4 in that vector), you'd essentially create a memcopy and keep both [1,2,3,4,5] and [1,2,3,5] in memory before destroying [1,2,3,4,5] later in memory.
+
+At and after C++2011, this function call the move() function (provided below). This move function would;
+- perform a 'memory lock' (conceptually) to prevent it from being accessed by more than 1 thread or process
+- then validates that the range is valid (checks for buffer overflow concerns)
+- finishing off the operation with a memory-move operation using `__copy_move_a2<true>`
+   - where <true> indicates that this is a 'moving' operation (as opposed to copying)
+   - Preventing your application's memory footprint from potentially "ballooning", or increasing by 2x-1 in size to perform this operation
+
+([From libstdc++/stl_algobase.h:L475-L492](https://gcc.gnu.org/onlinedocs/gcc-4.6.3/libstdc++/api/a01046_source.html#l00475))
 ```cpp
 00475   template<typename _II, typename _OI>
 00476     inline _OI
