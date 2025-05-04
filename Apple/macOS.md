@@ -5,5 +5,8 @@ This is an SQLite database that you can view with any SQLite editor, there is **
 ~/Library/Messages/chat.db
 ```
 
-## History
-- Flipped to IPSWs for updates when the M-series Macs released in 2020
+## General Notes
+- Made IPSWs available for the update to the M-series Macs in 2020
+- M-series Macs are built on the same platform that iOS/iPadOS devices are built on 
+   - revision of ARM tracks between the two
+   - the M-series chips are specialty chips for video editing and compiling software with the M-series chips

@@ -7,7 +7,5 @@
 - Three DMG files make up the IPSW file structure, with an Info.plist file to provide a way to confirm upgrades/downgrades
 
 ## Some Links/References
-- [Pallas.py](https://github.com/riigess/pallas.py)
-- [The Apple Wiki (TAW) on MobileAsset](https://theapplewiki.com/wiki/MobileAsset)
 - [iBoot on TAW](https://theapplewiki.com/wiki/IBoot)
 - [AirPlay](./AirPlay-mDNS.md)
